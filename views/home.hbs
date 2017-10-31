@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>Jokes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            text-transform: capitalize;
+        }
+
+        .joke .setup {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>All the jokes</h1>
+    <ul>
+        {{#each services}}
+        <h3>{{name}}</h3>
+        {{#each jokes}} {{> joke }} {{/each}} {{/each}}
+    </ul>
+    <section id="add-joke">
+        <input id="setup-input" placeholder="setup" type="text" required>
+        <input id="punchline-input" placeholder="punchline" type="text" required>
+        <button class="button">add joke</button>
+    </section>
+    <script>
+        const setupInput = $("#setup-input")
+        const punchlineInput = $("#punchline-input")
+
+        function setShowEvent(jokeEl) {
+            const setupEl = jokeEl.children().eq(0)
+            const punchlineEl = jokeEl.children().eq(1)
+            setupEl.click(function () {
+                console.log(punchlineEl)
+                punchlineEl.prop("hidden", !punchlineEl[0].hasAttribute("hidden"))
+            })
+        }
+
+        $(".joke").each(function () {
+            setShowEvent($(this))
+        })
+        $("#add-joke button").click(function () {
+            if (setupInput[0].validity.valid && punchlineInput[0].validity.valid) {
+                fetch("/api/jokes", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({
+                        setup: setupInput.val(),
+                        punchline: punchlineInput.val()
+                    })
+                })
+                    .then(res => res.json())
+                    .then(function (result) {
+                        const { newId } = result;
+                        fetch("/api/jokes/" + newId)
+                            .then(res => res.text())
+                            .then(jokeHtml => {
+                                const jokeEl = $(jokeHtml)
+                                setShowEvent(jokeEl)
+                                $("ul").append(jokeEl)
+                            });
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>
