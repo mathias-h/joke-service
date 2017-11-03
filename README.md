@@ -1,3 +1,3 @@
 # joke-service
 
-Nicolai 
+Mathias.getBrain().toString()
