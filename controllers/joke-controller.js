@@ -6,13 +6,13 @@ class JokeController {
 	constructor() {
 		this.getServices().then(services => {
 			this.services = services
-			console.log(this.services)
 		})
 	}
 
 	getServices() {
 		return fetch("https://krdo-joke-registry.herokuapp.com/api/services").then(res => res.json())
 			.then(services => {
+				console.log(services)
 				return services.map((service) => {
 					try {
 						const address = new URL(service.address)
