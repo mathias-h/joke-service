@@ -23,7 +23,7 @@ class JokeController {
 							catch (error) {
 								return null
 							}
-						}).filter(Boolean)
+						})
 
 						console.log(services)
 
