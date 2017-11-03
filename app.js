@@ -28,7 +28,9 @@ app.get('/', function(req, res) {
 app.get("/api/jokes/:id", function(req, res) {
 	jokeController.get(req.params.id)
 		.then(joke => res.render("partials/joke", joke))
-		.catch(err => { res.status(500).json(err) });
+		.catch(err => {
+			res.status(500).json(err)
+		});
 });
 
 app.post("/api/jokes", function(req, res) {
