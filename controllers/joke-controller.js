@@ -14,7 +14,7 @@ class JokeController {
 			get("https://krdo-joke-registry.herokuapp.com/api/services", res => {
 				res.on("data", b => response += b.toString())
 					.on("end", () => {
-						console.log(response)
+						console.log(URL)
 						const services = JSON.parse(response).map((service) => {
 							try {
 								const address = new URL(service.address)
