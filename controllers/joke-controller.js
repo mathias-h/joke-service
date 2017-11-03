@@ -5,9 +5,7 @@ const { URL } = require("url")
 
 class JokeController {
 	constructor() {
-		this.getServices().then(services => {
-			this.services = services
-		})
+		this.services = this.getServices()
 	}
 
 	getServices() {
@@ -38,20 +36,22 @@ class JokeController {
 	}
 
 	getAll() {
-		const jokes = []
-		for (var service of this.services) {
-			jokes.push(fetch(service.address + "api/jokes").then(res => res.json()).then(jokes => {
-				return { 
-					name: service.name || "Anonyme JOKES",
-					jokes: jokes.map(joke => ({
-						setup: joke.Setup || joke.setup,
-						punchline: joke.Punchline || joke.punchline
-					}))
-				}
-			}))
-		}
+		return this.services.then(services => {
+			const jokes = []
+			for (var service of this.services) {
+				jokes.push(fetch(service.address + "api/jokes").then(res => res.json()).then(jokes => {
+					return { 
+						name: service.name || "Anonyme JOKES",
+						jokes: jokes.map(joke => ({
+							setup: joke.Setup || joke.setup,
+							punchline: joke.Punchline || joke.punchline
+						}))
+					}
+				}))
+			}
 
-		return Promise.all(jokes)
+			return Promise.all(jokes)
+		})
 	}
 
 	create(joke) {
