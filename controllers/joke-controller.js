@@ -1,6 +1,6 @@
 var Joke = require("../models/joke.js")
 const fetch = require("node-fetch")
-const { get } = require("http")
+const { get } = require("https")
 const { URL } = require("url")
 
 class JokeController {
@@ -37,6 +37,7 @@ class JokeController {
 
 	getAll() {
 		return this.services.then(services => {
+			console.log(services)
 			const jokes = []
 			for (var service of this.services) {
 				jokes.push(fetch(service.address + "api/jokes").then(res => res.json()).then(jokes => {
