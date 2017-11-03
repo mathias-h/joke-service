@@ -10,9 +10,11 @@ class JokeController {
 	}
 
 	getServices() {
-		return fetch("https://krdo-joke-registry.herokuapp.com/api/services").then(res => res.json())
+		return fetch("https://krdo-joke-registry.herokuapp.com/api/services").then(res => {
+				res.text().then(console.log)
+				return res.json()
+			})
 			.then(services => {
-				console.log(services)
 				return services.map((service) => {
 					try {
 						const address = new URL(service.address)
