@@ -6,6 +6,7 @@ class JokeController {
 	constructor() {
 		this.getServices().then(services => {
 			this.services = services
+			console.log(this.services)
 		})
 	}
 
