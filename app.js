@@ -22,13 +22,17 @@ app.get('/', function(req, res) {
 		.then(function(services) {
 			res.render('home', { services })
 		})
-		.catch(err => { res.status(500).json(err) });
+		.catch(err => {
+			console.error(err)
+			res.status(500).json(err)
+		});
 });
 
 app.get("/api/jokes/:id", function(req, res) {
 	jokeController.get(req.params.id)
 		.then(joke => res.render("partials/joke", joke))
 		.catch(err => {
+			console.error(err)
 			res.status(500).json(err)
 		});
 });
@@ -38,7 +42,10 @@ app.post("/api/jokes", function(req, res) {
 		.then(result => {
 			res.json({ newId: result._id })
 		})
-		.catch(err => { res.status(406).json(err) });
+		.catch(err => {
+			console.error(err)
+			res.status(406).json(err)
+		});
 });
 
 

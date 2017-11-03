@@ -41,7 +41,7 @@ class JokeController {
 		return this.services.then(services => {
 			console.log(services)
 			const jokes = []
-			for (var service of this.services) {
+			for (var service of services) {
 				jokes.push(fetch(service.address + "api/jokes").then(res => res.json()).then(jokes => {
 					return { 
 						name: service.name || "Anonyme JOKES",
