@@ -37,6 +37,10 @@ app.get("/api/jokes/:id", function(req, res) {
 		});
 });
 
+app.get("/api/jokes", function(res, res) {
+	jokeController.get().then(jokes => res.json(jokes))
+})
+
 app.post("/api/jokes", function(req, res) {
 	jokeController.create(req.body)
 		.then(result => {
