@@ -27,6 +27,8 @@ class JokeController {
 						}
 					}).filter(Boolean)
 
+					console.log(services)
+
 					resolve(services)
 				})
 		})
