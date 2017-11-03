@@ -9,25 +9,26 @@ class JokeController {
 	}
 
 	getServices() {
+		let response = ""
 		return new Promise((resolve, reject) => {
-			let response = ""
-			get("https://krdo-joke-registry.herokuapp.com/api/services")
-				.on("data", b => response += b.toString())
-				.on("end", () => {
-					const services = JSON.parse(response).map((service) => {
-						try {
-							const address = new URL(service.address)
-							return { name: service.name, address }
-						}
-						catch (error) {
-							return null
-						}
-					}).filter(Boolean)
+			get("https://krdo-joke-registry.herokuapp.com/api/services", res => {
+				res.on("data", b => response += b.toString())
+					.on("end", () => {
+						const services = JSON.parse(response).map((service) => {
+							try {
+								const address = new URL(service.address)
+								return { name: service.name, address }
+							}
+							catch (error) {
+								return null
+							}
+						}).filter(Boolean)
 
-					console.log(services)
+						console.log(services)
 
-					resolve(services)
-				})
+						resolve(services)
+					})
+			})
 		})
 	}
 
