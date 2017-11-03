@@ -21,6 +21,7 @@ class JokeController {
 								return { name: service.name, address }
 							}
 							catch (error) {
+								console.error(error)
 								return null
 							}
 						})
