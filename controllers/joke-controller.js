@@ -1,5 +1,6 @@
 var Joke = require("../models/joke.js")
 const fetch = require("node-fetch")
+const { get } = require("http")
 const { URL } = require("url")
 
 class JokeController {
@@ -10,21 +11,25 @@ class JokeController {
 	}
 
 	getServices() {
-		return fetch("https://krdo-joke-registry.herokuapp.com/api/services").then(res => {
-				res.text().then(console.log)
-				return res.json()
-			})
-			.then(services => {
-				return services.map((service) => {
-					try {
-						const address = new URL(service.address)
-						return { name: service.name, address }
-					}
-					catch (error) {
-						return null
-					}
-				}).filter(Boolean)
-			})
+		return new Promise((resolve, reject) => {
+			let response = ""
+			get("https://krdo-joke-registry.herokuapp.com/api/services")
+				.on("data", b => response += b.toString())
+				.on("end", () => {
+					const services = JSON.parse(response)
+					return services.map((service) => {
+						try {
+							const address = new URL(service.address)
+							return { name: service.name, address }
+						}
+						catch (error) {
+							return null
+						}
+					}).filter(Boolean)
+
+					resolve(services)
+				})
+		})
 	}
 
 	get(id) {
