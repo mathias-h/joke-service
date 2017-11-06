@@ -57,9 +57,6 @@
                 })
                     .then(res => res.json())
                     .then(function (result) {
-                        location.reload()
-                        /*
-                        TODO add joke
                         const { newId } = result;
                         fetch("/api/jokes/" + newId)
                             .then(res => res.text())
@@ -67,7 +64,7 @@
                                 const jokeEl = $(jokeHtml)
                                 setShowEvent(jokeEl)
                                 $("ul").append(jokeEl)
-                            });*/
+                            });
                     })
             }
         })

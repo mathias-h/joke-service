@@ -17,7 +17,7 @@ class JokeController {
 						const services = JSON.parse(response).map((service) => {
 							try {
 								const address = new URL(service.address)
-								return { name: service.name, address }
+								return { name: service.name, address: `https://${address.host}/` }
 							}
 							catch (error) {
 								return null
@@ -34,7 +34,7 @@ class JokeController {
 		return Joke.findOne({ _id: id }, { setup: 1, punchline: 1, _id: 0 })
 	}
 
-	get() {
+	getJokes() {
 		return Joke.find()
 	}
 

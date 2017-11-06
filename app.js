@@ -38,7 +38,10 @@ app.get("/api/jokes/:id", function(req, res) {
 });
 
 app.get("/api/jokes", function(res, res) {
-	jokeController.get().then(jokes => res.json(jokes))
+	jokeController.getJokes().then(jokes => res.json(jokes)).catch(err => {
+		console.error(err)
+		res.status(500).json(err)
+	})
 })
 
 app.post("/api/jokes", function(req, res) {
