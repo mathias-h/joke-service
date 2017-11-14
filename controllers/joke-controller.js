@@ -42,17 +42,19 @@ class JokeController {
 		return this.services.then(services => {
 			const jokes = []
 			for (let service of services) {
-				jokes.push(fetch(service.address + "api/jokes").then(res => res.json()).then(jokes => {
-					return { 
-						name: service.name || "Anonyme JOKES",
-						jokes: jokes.map(joke => ({
-							setup: joke.Setup || joke.setup,
-							punchline: joke.Punchline || joke.punchline
-						}))
-					}
+				jokes.push(fetch(service.address + "api/jokes").then(res => {
+					if (!res.ok) return undefined
+					return res.json().then(jokes => {
+						return { 
+							name: service.name || "Anonyme JOKES",
+							jokes: jokes.map(joke => ({
+								setup: joke.Setup || joke.setup,
+								punchline: joke.Punchline || joke.punchline
+							}))
+						}
+					}).catch(err => {return undefined})
 				}))
 			}
-
 			return Promise.all(jokes)
 		})
 	}
